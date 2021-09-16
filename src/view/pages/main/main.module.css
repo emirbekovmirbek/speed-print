@@ -1,0 +1,37 @@
+.color {
+    background: gray;
+    color: #FFFF;
+}
+
+.complete {
+    color: green;
+}
+
+
+.texts {
+    width: 90%;
+    padding: 20px;
+    border: 1px solid black;
+    margin: 30px 0;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 25px;
+    border-radius: 20px;
+}
+
+.print__block {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    background: green;
+    border-radius: 10px;
+}
+
+.input {
+    outline: none;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 25px;
+}

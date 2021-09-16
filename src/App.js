@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import {Main} from "./view/pages/main/Main";
+import React from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [text, setText] = React.useState("");
+    const [result, setResult] = React.useState({
+        typing_speed: "",
+        errors_count: "",
+    })
+
+    React.useEffect(() => {
+        fetch("https://60f15c0c38ecdf0017b0fbdb.mockapi.io/text")
+            .then((res) => res.json())
+            .then((data) => {
+                setText(data[Math.floor(Math.random() * (data.length - 1))].text)
+            })
+    }, []);
+    const onSubmit = (obj) => {
+        setResult(obj)
+    }
+    return (
+        <div className="App">
+            { result.typing_speed === ""?<Main
+                text={text}
+                onSubmit={onSubmit}
+            />:""}
+            {result.typing_speed !== ""?  <div className="your__result container">
+                <h1 className='title'>Ваш результат</h1>
+                <p className="errors_count">{`Количество опечаток: ${result.errors_count}`}</p>
+                <p className="typing_speed">{` Слов в миниту: ${result.typing_speed}`}</p>
+            </div>:""}
+
+        </div>
+    );
 }
 
 export default App;
