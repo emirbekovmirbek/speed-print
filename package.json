@@ -2,7 +2,7 @@
   "name": "reviro",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/emirbekovmirbek/speed-print",
+  "homepage": "https://github.com/emirbekovmirbek/speed-print/tree/gh-pages",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
