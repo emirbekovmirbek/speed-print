@@ -1,15 +1,16 @@
-import React from 'react';
+import React from 'react'
 import css from "./main.module.css"
-import Timer from "react-compound-timer";
+import Timer from "react-compound-timer"
+import Loader from '../../components/Loader';
 
 export const Main = ({text, onSubmit}) => {
-    const [printWord, SetPrintWord] = React.useState("");
-    const [sentences, setSentences] = React.useState([]);
-    const [activeWord, setActiveWord] = React.useState(0);
-    const [error, setError] = React.useState();
-    const [complete, setComplete] = React.useState([]);
-    const [countError, setCountError] = React.useState(0);
-    const [stopTime, setStopTime] = React.useState(false);
+    const [printWord, SetPrintWord] = React.useState("")
+    const [sentences, setSentences] = React.useState([])
+    const [activeWord, setActiveWord] = React.useState(0)
+    const [error, setError] = React.useState()
+    const [complete, setComplete] = React.useState([])
+    const [countError, setCountError] = React.useState(0)
+    const [stopTime, setStopTime] = React.useState(false)
 
     React.useEffect(() => {
         setSentences(text?.split(" "))
@@ -29,28 +30,28 @@ export const Main = ({text, onSubmit}) => {
     }
     //  Проверям на наличие опечаток
     React.useEffect(() => {
-        if (printWord !== "") {
-            if (!sentences[activeWord].includes(printWord)) {
-                setCountError(countError + 1)
-                setError(activeWord)
-            } else {
-                setError()
-            }
+        checkSymbol()
+    }, [printWord])
+    const checkSymbol = () => {
+        const end = printWord.length
+        if (sentences[activeWord]?.substr(0, end) === printWord || !printWord) {
+            setError()
+            return
         }
-    }, [printWord]);
-    //
+        setCountError(countError + 1)
+        setError(activeWord)
+    }
     const onPrint = (e) => {
         if (e.keyCode === 8) {
             deleteLastSymbol()
         } else if (e.keyCode === 32) {
             checkWord();
-            SetPrintWord("");
-
-        } else if (((e.keyCode >= 7) && (e.keyCode <= 48)) || (e.keyCode === 144)) return
+            SetPrintWord("")
+        } else if (((e.keyCode >= 7) && (e.keyCode <= 48)) || (e.keyCode === 144)) return null
         else {
-            SetPrintWord(printWord + e.key)
+            SetPrintWord((prev) => prev + e.key)
         }
-    };
+    }
     // Вызывает функцию isTimeout когда время закончилось
     React.useEffect(() => {
         if (stopTime === true) {
@@ -58,16 +59,16 @@ export const Main = ({text, onSubmit}) => {
         }
     }, [stopTime])
     // После окончания времени передает данные о опечатках и скорости печати,
-    const isTimeout = () => {
-        setStopTime(true);
+    function isTimeout() {
         const result = complete.map((item) => {
             return (sentences[item].length + 1)
         })
         onSubmit({
-            typing_speed: result !== []?result.reduce((a, b) => a + b,0) / 5:0,
+            typing_speed: result !== [] ? result.reduce((a, b) => a + b, 0) / 5 : 0,
             errors_count: countError,
         })
     }
+    if (!text) return <div className={css.loader}><Loader/></div>
 
     return <div className="container">
         <Timer
@@ -75,7 +76,7 @@ export const Main = ({text, onSubmit}) => {
             direction="backward"
             startImmediately={false}
             checkpoints={[{
-                time: 0,
+                time: 60,
                 callback: () => setStopTime(true),
             }]}
         >
@@ -97,17 +98,14 @@ export const Main = ({text, onSubmit}) => {
                         }</p>
                     </div>
                     <div className={css.print__block}>
-                        <input className={css.input} disabled={stopTime} type="text" value={printWord}
+                        <input className={css.input} type="text" disabled={stopTime} value={printWord}
                                onKeyDown={onPrint} onChange={start}/>
                     </div>
-                    <p> Опечатки :{ countError}</p>
+                    <p className={css.misprint}> Опечатки :{countError}</p>
                 </>
             )}
-
         </Timer>
-    </div>;
-
-
-};
+    </div>
+}
 
 

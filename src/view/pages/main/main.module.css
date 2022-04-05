@@ -35,3 +35,10 @@
     font-weight: 500;
     line-height: 25px;
 }
+.misprint {
+    margin-top: 5px;
+    color: #ea1515
+}
+.loader {
+    text-align: center;
+}

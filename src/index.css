@@ -1,6 +1,6 @@
 * {
     margin: 0;
-    paddding: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -26,4 +26,18 @@ body {
     font-size: 30px;
     font-weight: 700;
     line-height: 40px;
+}
+.start__btn {
+    padding: 10px 15px;
+    background: #364bd5;
+    border: 2px solid transparent;
+    color: #ffffff;
+    width: 200px;
+    transition: all 0.4s;
+    margin: 0 auto;
+}
+.start__btn:hover {
+    border: 2px solid #20aa20;
+    background: #ffffff;
+    color: #000000;
 }

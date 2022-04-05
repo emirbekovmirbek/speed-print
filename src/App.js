@@ -1,5 +1,5 @@
-import {Main} from "./view/pages/main/Main";
-import React from "react";
+import {Main} from "./view/pages/main/Main"
+import React from "react"
 
 function App() {
     const [text, setText] = React.useState("");
@@ -14,24 +14,27 @@ function App() {
             .then((data) => {
                 setText(data[Math.floor(Math.random() * (data.length - 1))].text)
             })
-    }, []);
-    const onSubmit = (obj) => {
-        setResult(obj)
+    }, [])
+    const start = () => {
+        setResult({
+            typing_speed: "",
+            errors_count: "",
+        })
     }
     return (
         <div className="App">
-            { result.typing_speed === ""?<Main
+            {result.typing_speed === "" ? <Main
                 text={text}
-                onSubmit={onSubmit}
-            />:""}
-            {result.typing_speed !== ""?  <div className="your__result container">
-                <h1 className='title'>Ваш результат</h1>
+                onSubmit={(obj) => setResult(obj)}
+            /> : ""}
+            {result.typing_speed !== "" ? <div className="your__result container">
+                <h1 className="title">Ваш результат</h1>
                 <p className="errors_count">{`Количество опечаток: ${result.errors_count}`}</p>
                 <p className="typing_speed">{` Слов в миниту: ${result.typing_speed}`}</p>
-            </div>:""}
-
+                <button className="start__btn" onClick={start}>Старт</button>
+            </div> : ""}
         </div>
-    );
+    )
 }
 
-export default App;
+export default App
